@@ -28,33 +28,70 @@
         <button @click="showDeals()" class="koumpi" type="submit" :disabled="!subcategory">Αναζήτηση</button>
 
         <div id="offer" v-if="showOffer == true">
-         
-           <h2 class="katastima">{{ selectedShop.shopname }}</h2> 
-           <div v-for= " deal in selectedShop.deals" :key="deal.id" >
-            <h3 class="offerName"> {{ deal.fk_product.name }}</h3> 
-          <h3 class="charOffer">Τιμή: {{ deal.price }}   €</h3>
-          <h3 class="charOffer">Καταχωρήθηκε: {{ deal.createdAt }} </h3>  
-         
-          <div class="icons">
-          <span class="svg">
-            <svg @click="vote(deal.id,'like')" :class="{'clicked': clicked}"  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-              stroke="currentColor" class="w-6 h-6">
-              <path stroke-linecap="round" stroke-linejoin="round"
-                d="M6.633 10.5c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 012.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 00.322-1.672V3a.75.75 0 01.75-.75A2.25 2.25 0 0116.5 4.5c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 01-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 00-1.423-.23H5.904M14.25 9h2.25M5.904 18.75c.083.205.173.405.27.602.197.4-.078.898-.523.898h-.908c-.889 0-1.713-.518-1.972-1.368a12 12 0 01-.521-3.507c0-1.553.295-3.036.831-4.398C3.387 10.203 4.167 9.75 5 9.75h1.053c.472 0 .745.556.5.96a8.958 8.958 0 00-1.302 4.665c0 1.194.232 2.333.654 3.375z" />
-            </svg>
-          </span>
-          <span class="svg">
-            <svg @click="vote(deal.id,'dislike')" :class="{'clicked': clicked}"  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-              stroke="currentColor" class="w-6 h-6">
-              <path stroke-linecap="round" stroke-linejoin="round"
-                d="M7.5 15h2.25m8.024-9.75c.011.05.028.1.052.148.591 1.2.924 2.55.924 3.977a8.96 8.96 0 01-.999 4.125m.023-8.25c-.076-.365.183-.75.575-.75h.908c.889 0 1.713.518 1.972 1.368.339 1.11.521 2.287.521 3.507 0 1.553-.295 3.036-.831 4.398C20.613 14.547 19.833 15 19 15h-1.053c-.472 0-.745-.556-.5-.96a8.95 8.95 0 00.303-.54m.023-8.25H16.48a4.5 4.5 0 01-1.423-.23l-3.114-1.04a4.5 4.5 0 00-1.423-.23H6.504c-.618 0-1.217.247-1.605.729A11.95 11.95 0 002.25 12c0 .434.023.863.068 1.285C2.427 14.306 3.346 15 4.372 15h3.126c.618 0 .991.724.725 1.282A7.471 7.471 0 007.5 19.5a2.25 2.25 0 002.25 2.25.75.75 0 00.75-.75v-.633c0-.573.11-1.14.322-1.672.304-.76.93-1.33 1.653-1.715a9.04 9.04 0 002.86-2.4c.498-.634 1.226-1.08 2.032-1.08h.384" />
-            </svg>
-          </span>
-         </div>
+
+          <h2 class="katastima">{{ selectedShop.shopname }}</h2>
+          <div v-for=" deal in selectedShop.deals" :key="deal.id">
+            <h3 class="offerName"> {{ deal.fk_product.name }}</h3>
+            <h3 class="charOffer">Τιμή: {{ deal.price }} €</h3>
+            <h3 class="charOffer">Καταχωρήθηκε: {{ deal.createdAt }} </h3>
+
+            <div class="icons">
+              <span class="svg">
+                <svg @click="vote(deal.id, 'like')" :class="{ 'clicked': clicked }" xmlns="http://www.w3.org/2000/svg"
+                  fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M6.633 10.5c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 012.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 00.322-1.672V3a.75.75 0 01.75-.75A2.25 2.25 0 0116.5 4.5c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 01-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 00-1.423-.23H5.904M14.25 9h2.25M5.904 18.75c.083.205.173.405.27.602.197.4-.078.898-.523.898h-.908c-.889 0-1.713-.518-1.972-1.368a12 12 0 01-.521-3.507c0-1.553.295-3.036.831-4.398C3.387 10.203 4.167 9.75 5 9.75h1.053c.472 0 .745.556.5.96a8.958 8.958 0 00-1.302 4.665c0 1.194.232 2.333.654 3.375z" />
+                </svg>
+              </span>
+              <span class="svg">
+                <svg @click="vote(deal.id, 'dislike')" :class="{ 'clicked': clicked }" xmlns="http://www.w3.org/2000/svg"
+                  fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M7.5 15h2.25m8.024-9.75c.011.05.028.1.052.148.591 1.2.924 2.55.924 3.977a8.96 8.96 0 01-.999 4.125m.023-8.25c-.076-.365.183-.75.575-.75h.908c.889 0 1.713.518 1.972 1.368.339 1.11.521 2.287.521 3.507 0 1.553-.295 3.036-.831 4.398C20.613 14.547 19.833 15 19 15h-1.053c-.472 0-.745-.556-.5-.96a8.95 8.95 0 00.303-.54m.023-8.25H16.48a4.5 4.5 0 01-1.423-.23l-3.114-1.04a4.5 4.5 0 00-1.423-.23H6.504c-.618 0-1.217.247-1.605.729A11.95 11.95 0 002.25 12c0 .434.023.863.068 1.285C2.427 14.306 3.346 15 4.372 15h3.126c.618 0 .991.724.725 1.282A7.471 7.471 0 007.5 19.5a2.25 2.25 0 002.25 2.25.75.75 0 00.75-.75v-.633c0-.573.11-1.14.322-1.672.304-.76.93-1.33 1.653-1.715a9.04 9.04 0 002.86-2.4c.498-.634 1.226-1.08 2.032-1.08h.384" />
+                </svg>
+              </span>
+
+
+
+            </div>
+
+
+          </div>
+
+
+          <div class="text-center">
+            <h1 class="font-bold text-lg">Add Offer</h1>
+
+            <!-- Dropdown for Categories -->
+            <select v-model="selectedCategory">
+              <option v-for="category in products.map((prod) => prod.name)" key="p" :value="category">{{ category }}
+              </option>
+            </select>
+
+            <!-- Dropdown for SubCategories -->
+            <select v-model="selectedSubcategory">
+              <option
+                v-for="subcategory in products.filter((category) => (category.name == selectedCategory))[0]?.subcategories"
+                key="p" :value="subcategory.name">{{ subcategory.name }}</option>
+            </select>
+
+            <!-- Dropdown for products -->
+            <select v-model="selectedProduct">
+              <option
+                v-for="product in products.filter((category) => (category.name == selectedCategory))[0]?.subcategories.filter((subcategory) => (subcategory.name == selectedSubcategory))[0]?.products"
+                key="p" :value="product.id">{{ product.name }}</option>
+            </select>
+
+            <input type="text" v-model="offerPrice" placeholder="Offer Price">
+
+            <button class="p-2 bg-orange-400 hover:bg-orange-500 rounded-full w-full mt-2" @click="addOffer">Add
+              Offer</button>
+
+          </div>
+
         </div>
 
 
-        </div>
 
       </div>
       <div id="mapContainer"></div>
@@ -87,7 +124,7 @@ let clicked = ref()
 
 const selectedShop = ref({})
 
- 
+
 
 // const downvote = ref([])
 
@@ -96,41 +133,41 @@ const showOffer = ref(false)
 
 
 const dealReview = (shop) => {
-  
+
   showOffer.value = true;
   console.log(showOffer.value);
 
   selectedShop.value = shop
-  
+
 
 }
 
 const vote = async (dealID, vote) => {
 
   clicked = !clicked;
-  
+
   try {
     const response = await fetch('http://localhost:3000/deals/review', {
-    method: 'POST',
-    headers: {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      vote: vote,
-      fk_user: localStorage.getItem('userID'),
-      dealId: dealID
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        vote: vote,
+        fk_user: localStorage.getItem('userID'),
+        dealId: dealID
+      })
     })
-    }) 
 
-    if(response.ok == false) throw response.statusText
+    if (response.ok == false) throw response.statusText
 
     const res = await response.json();
 
-    console.log("response!",res)
-    } catch (error){
-      alert(error)
-    } 
+    console.log("response!", res)
+  } catch (error) {
+    alert(error)
+  }
 }
 
 
@@ -322,12 +359,13 @@ onMounted(async () => {
 
     }))
 
-
+    const selectedShop = ref("");
     let buildPopup = (shop) => {
+      selectedShop.value = shop;
       var box = document.createElement("h2")
       box.innerHTML = `<h2 id="shopName">${shop.shopname}</h2>`
       box.className = "inpop";
-      box.addEventListener("click", () => dealReview(shop) )
+      box.addEventListener("click", () => dealReview(shop))
 
       shop.deals.forEach((deal) => {
         box.innerHTML += `
@@ -393,6 +431,48 @@ onMounted(async () => {
 
 
 
+const selectedCategory = ref("")
+const selectedSubcategory = ref("")
+const selectedProduct = ref("")
+const offerPrice = ref("")
+const products = ref([]);
+// get request for products
+async function getProducts() {
+  try {
+    const response = await fetch('http://localhost:3000/products');
+    products.value = await response.json();
+    console.log(products.value);
+  } catch (err) {
+    console.log(err);
+  }
+}
+getProducts();
+
+
+// post request to create  deal
+async function addOffer() {
+  try {
+    const response = await fetch('http://localhost:3000/create_deal', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        "x-access-token": localStorage.getItem("token"),
+      },
+      body: JSON.stringify({
+        price: offerPrice.value,
+        fk_product: selectedProduct.value,
+        fk_shop: selectedShop.value.shopid,
+      }),
+    });
+    const data = await response.json();
+    console.log(data);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+
+
 </script>
 
 <style scoped>
@@ -439,7 +519,7 @@ h2 {
   margin-left: 25px;
   margin-bottom: 10px;
   font-weight: bold;
-  color:#014957;
+  color: #014957;
 
 }
 
@@ -527,10 +607,11 @@ nav {
   }
 
 }
+
 #offer {
   margin-top: 40px;
   border-radius: 15px;
-  position:relative;
+  position: relative;
 }
 
 .svg {
@@ -539,13 +620,14 @@ nav {
   margin-top: 20px;
 
 }
+
 .svg:hover {
-  color:rgb(245, 135, 67);
+  color: rgb(245, 135, 67);
   box-shadow: #ffffffca;
 }
 
 .clicked {
-  color:rgb(245, 135, 67);
+  color: rgb(245, 135, 67);
   box-shadow: #ffffffca;
 }
 
@@ -563,14 +645,14 @@ nav {
   text-align: center;
 }
 
-.charOffer{
+.charOffer {
   margin-left: 15px;
-  margin-top:5px;
+  margin-top: 5px;
 }
 
 
-.seldiv{
-  height: 90% !important ;
+.seldiv {
+  height: 90% !important;
   overflow: auto;
 }
 </style>

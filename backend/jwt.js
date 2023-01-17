@@ -95,7 +95,7 @@ app.post('/change-password', validateJWT, async (req, res) => {
     try {
       // If the request has a valid JWT, the decoded payload
       // will be available on the request object
-      const userId = req.decoded.username;
+      const userId = req.body.name;
   
       // Get the new password from the request body
       const newPassword = req.body.newPassword;

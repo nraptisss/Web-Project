@@ -5,6 +5,9 @@ const { Shop , Product , Deal , Review} = require('./new');
 const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
+
+const jwt = require('jsonwebtoken');
+
 // Use the cors middleware to enable CORS
 app.use(cors());
 
@@ -68,11 +71,46 @@ app.post('/deals/review', async (req, res) => {
   
   
   
+// Create a middleware function to validate JWTs
+const validateJWT = (req, res, next) => {
+  // Get the JWT from the request header
+  const token = req.headers['x-access-token'];
 
-  app.post("/create_deal", async (req, res) => {
+  // If a token was provided, validate it
+  if (token) {
+    // Verify the JWT and decode its payload
+    jwt.verify(token, 'secret', (err, decoded) => {
+      if (err) {
+        // If the token is invalid, return an error
+        return res.json({
+          success: false,
+          error: 'Invalid token',
+        });
+      } else {
+        // If the token is valid, save the decoded
+        // payload to the request object
+        req.decoded = decoded;
+
+        // Continue to the next middleware function
+        next();
+      }
+    });
+  } else {
+    // If no token was provided, return an error
+    return res.status(403).send({
+      success: false,
+      error: 'No token provided',
+    });
+  }
+};
+
+
+  app.post("/create_deal", validateJWT ,async (req, res) => {
     try {
+
+    let fk_user = req.decoded.username;
     // Extract the information about the new deal from the request body
-    const { price, fk_user, fk_product, fk_shop } = req.body;
+    const { price, fk_product, fk_shop } = req.body;
     
     
     // Set default values for likes and dislikes
@@ -85,6 +123,15 @@ app.post('/deals/review', async (req, res) => {
     // Get all shops with the same name as the provided shop
     const sameNameShops = await Shop.findAll({ where: { name: shop.name } });
     
+    console.log({
+      price,
+      likes,
+      dislikes,
+      fk_user,
+      fk_product,
+      fk_shop
+    })
+
     // Create the new deal using the provided information
     const newDeal = await Deal.create({
       price,
@@ -95,21 +142,22 @@ app.post('/deals/review', async (req, res) => {
       fk_shop
     });
     
-    // For each shop with the same name, create a new deal with the same information
-    for (let i = 0; i < sameNameShops.length; i++) {
-      await Deal.create({
-        price,
-        likes,
-        dislikes,
-        fk_user,
-        fk_product,
-        fk_shop: sameNameShops[i].id
-      });
-    }
+    // // For each shop with the same name, create a new deal with the same information
+    // for (let i = 0; i < sameNameShops.length; i++) {
+    //   await Deal.create({
+    //     price,
+    //     likes,
+    //     dislikes,
+    //     fk_user,
+    //     fk_product,
+    //     fk_shop: sameNameShops[i].id
+    //   });
+    // }
     
     // Send a response to the client with the new deal
     res.json({ deal: newDeal });
   } catch (error) {
+    // console.log(error)
     // If there was an error, send a response to the client with the error
     res.status(500).json({ error: error.message });
     }
